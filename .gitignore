@@ -1,6 +1,10 @@
+Sense/Sense/settings/develop.py
+Sense/Sense/settings/production.py
 
-Sense/Sense/settings/
+Sense/config/deploy/production.rb
+Sense/config/deploy/staging.rb
+Sense/config/deploy.rb
 
-Sense/config/
-Sense/lib/
 Sense/Capfile
+
+*.pyc
