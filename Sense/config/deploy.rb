@@ -23,10 +23,10 @@ set :deploy_to, '/srv/SenseWeb'
 # set :pty, true
 
 # Default value for :linked_files is []
-# set :linked_files, fetch(:linked_files, []).push('Sense/settings/__init__.py','Sense/settings/default.py','Sense/settings/production.py')
+set :linked_files, fetch(:linked_files, []).push('Sense/Sense/settings/__init__.py','Sense/Sense/settings/default.py','Sense/Sense/settings/production.py')
 
 # Default value for linked_dirs is []
-# set :linked_dirs, fetch(:linked_dirs, []).push('Sense/settings')
+set :linked_dirs, fetch(:linked_dirs, []).push('Sense/Sense/settings')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
