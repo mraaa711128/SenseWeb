@@ -1,0 +1,128 @@
+
+    <div class="modal-dialog">
+      	<div class="modal-content">
+	        <div class="modal-header">
+	        	<a class="btn close" aria-label="Close" href="javascript:void(0);" onclick="closeDialog();">
+	        		<span aria-hidden="true">×</span>
+	        	</a>
+	        	<h4 class="modal-title" id="dialogModalLabel">{{ title }}</h4>
+	        </div>
+	        <form id="quizForm" class="form-horizontal">
+	        	{% csrf_token %}
+	        	<div class="modal-body">
+                    {% if form.quiz_type.errors %}
+                    <div class="form-group has-error has-feedback">
+                    {% else %}
+                    <div class="form-group">
+                    {% endif %}
+                        <label for="{{ form.quiz_type.id_for_label }}" class="col-xs-12 col-sm-3 control-label">Quiz Type</label>
+                        <div class="col-xs-12 col-sm-9" id="{{ form.quiz_type.id_for_label }}_popover">
+                            {{ form.quiz_type }}
+                            {% if form.quiz_type.errors %}
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="inputError2Status" class="sr-only">(error)</span>
+                            {% endif %}
+                        </div>
+	        		</div>
+                    {% if form.content.errors %}
+                    <div class="form-group has-error has-feedback">
+                    {% else %}
+                    <div class="form-group">
+                    {% endif %}
+                        <label for="{{ form.content.id_for_label }}" class="col-xs-12 col-sm-3 control-label">Quiz Content</label>
+                        <div class="col-xs-12 col-sm-9" id="{{ form.content.id_for_label }}_popover">
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            <span id="inputError2Status" class="sr-only">(error)</span>
+                            {% endif %}
+                        </div>
+	        		</div>
+	        	</div>
+        		<div class="modal-footer">
+                    {% if quiz == None %}
+                    <a class="btn btn-primary" href="javascript:void(0);" onclick="updateQuiz();">Add</a>
+                    {% else %}
+                    <a class="btn btn-primary" href="javascript:void(0);" onclick="updateQuiz();">Update</a>
+                    <a class="btn btn-danger" href="javascript:void(0);" onclick="deleteQuiz();">Delete</a>
+                    {% endif %}
+                    <a class="btn btn-default" href="javascript:void(0);" onclick="closeDialog();">Close</a>
+        		  	
+        		</div>
+	        </form>
+
+      	</div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+	<script type="text/javascript">
+        {% for field in form %}
+        {% if field.errors %}
+        var {{ field.id_for_label}}_errors = '';
+        {% for error in field.errors %}
+        {{ field.id_for_label }}_errors += '{{ error|escape }}';
+        {% endfor %}
+        $("#{{ field.id_for_label }}_popover").popover({
+            animation: true,
+            html: true,
+            content: {{ field.id_for_label }}_errors,
+            placement: 'right',
+            trigger: 'hover'
+        });
+        {% endif %}
+        {% endfor %}
+
+
+        // detect submit button event to use ajax method to post the form
+        // and retrive the return data back if there is error object in form object.
+        function updateQuiz() {
+            $.ajax({
+                type: "POST",
+                cache: false,
+                {% if movie == None %}
+                url: '/tool/quiz/0',
+                {% else %}
+                url: '/tool/quiz/{{ quiz.id }}',
+                {% endif %}
+                data: $("#quizForm").serialize(),
+                success: function(data) {
+                    if (data != "") {
+                        $("#dialogModal").html(data);    
+                    } else {
+                        location.reload(true);
+                    };
+                    
+                },
+                async: true
+            });
+        }
+
+        function deleteQuiz() {
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: '/tool/quiz/delete/{{ quiz.id }}',
+                data: $("#quizForm").serialize(),
+                success: function(data) {
+                    location.reload(true);
+                },
+                async: true
+            });
+        }
+
+		// detect submit button event to use ajax method to post the form
+		// and retrive the return data back if there is error object in form object.
+		// $('#projectForm').on('submit',function(e){
+		//     $(this).ajaxForm({
+		//         type : "POST",
+		//         cache : false,
+		//         url : $(this).attr('action'),
+		//         data : $(this).serialize(),
+		//         success : function(data) {
+		//             $("#dialogModal").html(data);
+		//         },
+		//         async:false
+		//     }).submit();
+		//     e.stopPropagation();
+		// });
+
+	</script>

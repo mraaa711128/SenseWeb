@@ -1,0 +1,23 @@
+{
+  "name": "SenseWeb Static",
+  "authors": [
+    "Stanley Chiang <stanleyc.1982@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.5.0",
+    "bootstrap-table": "~1.9.1"
+  }
+}

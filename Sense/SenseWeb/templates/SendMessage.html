@@ -1,0 +1,69 @@
+{% extends "SideBarBase.html" %}
+{% load staticfiles %}
+{% block content2 %}
+<div class="wrapper">
+	<div class="page-wrapper">
+		<div class="row">
+			<div class="col-lg-6">
+				<form class="form-inline">
+					<div class="input-group">
+						<div class="input-group-btn">
+	<!-- 						<select id="country_code" class="form-control">
+								<option value="+1">+1</option>
+								<option value="+886">+886</option>
+							</select>						 -->
+							<button id="btn_country" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><div class="pull-left"><img id="img_flag" src="{% static "img/flag/United-States.png" %}" class="img-responsive center-block" style="width: 20px;"></div> +1</button>
+							<ul id="dropdown_country" class="dropdown-menu">
+								<li><a href="javascript:void(0)" onclick="switch_flag('United-States');"><div class="pull-left"><img src="{% static "img/flag/United-States.png" %}" class="img-responsive center-block" style="width: 20px;"></div> +1</a></li>
+								<li><a href="javascript:void(0)" onclick="switch_flag('Taiwan');"><div class="pull-left"><img src="{% static "img/flag/Taiwan.png" %}" class="img-responsive center-block" style="width: 20px;"></div> +886</a></li>
+							</ul>
+						</div><!-- /btn-group -->
+						<input id="country_code" type="hidden" value="+1">
+						<input id="phone_num" type="text" class="form-control" placeholder="(123)456-7890">
+					</div>
+					<button id="send_msg" type="submit" class="btn btn-primary"> GO </button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$("#dropdown_country>li>a").click(function(){
+		var htmlString = $(this).html();
+		$("#btn_country").html(htmlString);
+	});
+
+	function switch_flag(country) {
+		var country_code = "";
+		switch(country) {
+			case "United-States":
+				country_code = "+1";
+				break;
+			case "Taiwan":
+				country_code = "+886";
+				break;
+			default:
+				break;
+		}
+		$("#country_code").val(country_code);
+	}
+
+	$("#send_msg").click(function() {
+		var country_code = $("#country_code").val();
+		var tel_number = $("#phone_num").val();
+		$.ajax({
+			type: "GET",
+			url: "/tool/sendmessage/" + country_code + tel_number,
+			success: function(data) {
+				if (data.status == 'fail') {
+					console.log(data.message);
+				}
+			},
+			async:true
+		});
+	});
+</script>
+
+
+{% endblock content2 %}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Project Management Tools</title>
+
+	{% load staticfiles %}
+    
+    <link rel="stylesheet" href="{% static "bower_components/bootstrap/dist/css/bootstrap.css" %}" />
+    <link rel="stylesheet" href="{% static "bower_components/font-awesome/css/font-awesome.min.css" %}" />
+    <link rel="stylesheet" href="{% static "css/sb-admin.css" %}" />
+
+    <script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
+    <script src="{% static "bower_components/bootstrap/dist/js/bootstrap.js" %}"></script>
+    
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls= "navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Sense Database Tool</a>
+            </div>
+            {% comment "No Use" %}
+<!--             <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li class="dropdown pull-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ user.username }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="javascript:void(0);" onclick="showDialog('/req/userprofile')"><span class="glyphicon glyphicon-user" aria-hidden="false"></span>Profile</a></li>
+                        <li><a href="javascript:void(0);" onclick="showDialog('/req/changepasswd');"><span class="glyphicon glyphicon-lock" aria-hidden="false"></span>Change Password</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/signout"><span class="glyphicon glyphicon-off" aria-hidden="false"></span>Logout</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                    {% if not isUserSigningInUpOrOut %}
+                    <li><a href="#">Sign In</a></li>
+                    <li><a class="btn btn-link pull-right" href="/signin">Sign In</a></li>
+                    <li><a class="btn btn-link pull-right" href="/signup">Sign Up</a></li>
+                    {% else %}
+                    <li><a class="btn btn-link pull-right" href="/">Home</a></li>
+                    {% endif %}
+                {% endif %}
+            </ul> -->
+            {% endcomment %}
+        </div>
+    </nav>
+    
+    {% block content %}
+    {% endblock content %}
+
+    <!-- put all dialog tag in topbar because it can prevent the dialogs are hidden in back of other elements. -->
+<!--     <span id="iterationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="iterModalLabel" aria-hidden="true" style="display: none;">
+    </span>
+
+    <div id="projectModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="projModalLabel" aria-hidden="true" style="display: none;">
+    </div>
+
+    <div id="storyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="storyModalLabel" aria-hidden="true" style="display: none;">
+    </div>
+
+    <div id="userModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true" style="display: none;">
+    </div>
+
+    <div id="taskModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true" style="display: none;">
+    </div>
+
+    <div id="commentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true" style="display: none;">
+    </div>
+    
+    <span id="projAttachModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="projAttachModalLabel" aria-hidden="true" style="display: none;">
+    </span> -->
+    
+    <div id="dialogModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="dialogModalLabel" aria-hidden="true" style="display: none;">
+    </div>
+
+    <script type="text/javascript">
+        var winHeight = $(window).outerHeight();
+        $(".page-wrapper").css('height',winHeight); 
+
+        function showDialog(actionUrl,jsondata){
+            $.ajax({
+                type: "GET",
+                url: actionUrl,
+                data: jsondata,
+                success: function(result) {
+                    $("#dialogModal").html(result);
+                    $("#dialogModal").modal({
+                        backdrop: false,
+                        show: true
+                    });
+                },
+                async:true
+            }); 
+        }
+
+        // close Story Dialog and erase the content
+        function closeDialog(){
+            $("#dialogModal").modal('hide');
+            $("#dialogModal").html('');
+        }
+    </script>
+</body>
+</html>

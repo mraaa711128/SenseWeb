@@ -1,0 +1,28 @@
+{% extends "TopBarBase.html" %}
+{% block content %}
+
+{% load staticfiles %}
+
+<div class="navbar-inverse">
+	<div class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+        <ul class="nav navbar-nav side-nav">
+            <li>
+                <a href="/tool/movies"><i class="fa fa-fw fa-dashboard"></i> Movies</a>
+            </li>
+            <li>
+                <a href="/tool/quizzes"><i class="fa fa-fw fa-question"></i> Quizzes</a>
+            </li>
+            <li>
+                <a href="/tool/answers"><i class="fa fa-fw fa-lightbulb-o"></i> Answers</a>
+            </li>
+            <li>
+                <a href="/tool/sendmessage"><i class="fa fa-fw fa-paper-plane-o"></i> Send Message</a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% block content2 %}
+{% endblock content2 %}
+
+
+{% endblock content %}

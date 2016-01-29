@@ -1,0 +1,79 @@
+{% extends "SideBarBase.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "bower_components/bootstrap-table/dist/bootstrap-table.min.css" %}">
+
+{% block content2 %}
+<div class="wrapper">
+	<div class="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">
+					Movies
+				</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<table id="movietable" data-toggle="table" data-page-size="15" data-pagination="true" data-striped="true">
+					<thead>
+						<tr>
+							<th data-field="id" data-sortable="true">Id</th>
+							<th data-field="title" data-sortable="true">Title</th>
+							<th data-field="description">Description</th>
+							<th data-field="lens_id" data-sortable="true">MovieLens Id</th>
+							<th data-field="imdb_id" data-sortable="true">IMDB Id</th>
+							<th data-field="tmdb_id" data-sortable="true">TMDB Id</th>
+							<th data-field="link">Movie Link</th>
+							<th data-field="trailer">Trailer Link</th>
+							<th data-field="genres">Movie Genres</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for movie in movies %}
+						<tr>
+							<td>{{ movie.id }}</td>
+							<td>{{ movie.title }}</td>
+							<td>{{ movie.description }}</td>
+							<td>{{ movie.lens_id }}</td>
+							<td>{{ movie.imdb_id }}</td>
+							<td>{{ movie.tmdb_id }}</td>
+							<td>
+								{% if movie.link != "" %}
+								<a href="{{ movie.link }}"><i class="fa fa-fw fa-link"></i> Netflix</a>
+								{% endif %}
+							</td>
+							<td>
+								{% if movie.trailer != "" %}
+								<a href="{{ movie.trailer }}"><i class="fa fa-fw fa-youtube"></i> Trailer</a>
+								{% endif %}
+							</td>
+							<td>
+								{% for genre in movie.genres.all %}
+									{{ genre }}
+									{% if not forloop.last %},{% endif %}
+								{% endfor %}
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>	
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<a id="btn_newmovie" href="javascript:void(0)" class="btn btn-primary">New Movie</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="{% static "bower_components/bootstrap-table/dist/bootstrap-table.min.js" %}"></script>
+<script type="text/javascript">
+	$('#btn_newmovie').click(function(){
+		showDialog('/tool/movie/0');
+	});
+	$('#movietable').on('click-row.bs.table', function (row, element) {
+		showDialog('/tool/movie/' + element.id);
+	});
+</script>
+{% endblock content2 %}

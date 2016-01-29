@@ -1,0 +1,62 @@
+{% extends "SideBarBase.html" %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "bower_components/bootstrap-table/dist/bootstrap-table.min.css" %}">
+
+{% block content2 %}
+<div class="wrapper">
+	<div class="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">
+					Quizzes
+				</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<table id="quiztable" data-toggle="table" data-page-size="15" data-pagination="true" data-striped="true">
+					<thead>
+						<tr>
+							<th data-field="id" data-sortable="true">Id</th>
+							<th data-field="quiz_type" data-sortable="true">Type</th>
+							<th data-field="content">Quiz Content</th>
+							<th data-field="quizset_link">Quiz Set</th>
+							<th data-field="quizanswer_link">Quiz Answer</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for quiz in quizzes %}
+						<tr>
+							<td>{{ quiz.id }}</td>
+							<td>{{ quiz.quiz_type }}</td>
+							<td>{{ quiz.content }}</td>
+							<td>
+								<a href="javascript:void(0);" onclick="showDialog('/tool/quizset/{{ quiz.id }}');"><i class="fa fa-fw fa-link"></i> Edit</a>
+							</td>
+							<td>
+								<a href="javascript:void(0);" onclick="showDialog('/tool/quizanswer/{{ quiz.id }}');"><i class="fa fa-fw fa-youtube"></i> Edit</a>
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div>	
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<a id="btn_newquiz" href="javascript:void(0)" class="btn btn-primary">New Quiz</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="{% static "bower_components/bootstrap-table/dist/bootstrap-table.min.js" %}"></script>
+<script type="text/javascript">
+	$('#btn_newquiz').click(function(){
+		showDialog('/tool/quiz/0');
+	});
+	// $('#quiztable').on('click-row.bs.table', function (row, element) {
+	// 	showDialog('/tool/quiz/' + element.id);
+	// });
+</script>
+{% endblock content2 %}
